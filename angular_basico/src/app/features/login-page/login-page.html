@@ -1,0 +1,40 @@
+<div class="login-container">
+  <div class="login-card">
+    <div class="login-header">
+      <h2>Acesso ao Sistema</h2>
+      <p>Insira suas credenciais para continuar</p>
+    </div>
+
+    <!-- O formulário onde você vai atrelar o seu formGroup ou ngModel -->
+    <form class="login-form" [formGroup]="login">
+      <div class="input-group">
+        <label for="email">E-mail</label>
+        <input formControlName="email" type="email" id="email" placeholder="digite@seuemail.com">
+
+        @if(login.get('email')?.hasError('required') && login.get('email')?.touched) {
+        <small>Obrigatorio informar o email</small>
+        }
+
+        @if(login.get('email')?.hasError('email') && login.get('email')?.touched) {
+        <small>Email inválido</small>
+        }
+      </div>
+
+      <div class="input-group">
+        <label for="password">Senha</label>
+        <input formControlName="password" type="password" id="password" placeholder="••••••••">
+
+        @if(login.get('password')?.hasError('required') && login.get('password')?.touched) {
+        <small>Obrigatório informar a senha</small>
+        }
+
+        @if(login.get('password')?.hasError('minlength') && login.get('password')?.touched) {
+        <small>A senha precisa conter no minimo 6 caracteres!</small>
+        }
+
+      </div>
+
+      <button type="button" class="btn-login" (click)="logar()">Entrar</button>
+    </form>
+  </div>
+</div>
