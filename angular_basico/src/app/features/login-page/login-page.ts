@@ -3,6 +3,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { AuthService } from '../../core/services/auth-service';
 import { AuthRequest } from '../../core/models/auth-request';
 import { Router } from '@angular/router';
+import { ModalService } from '../../shared/modal-component/modal-service';
 
 @Component({
   selector: 'app-login-page',
@@ -24,15 +25,16 @@ export class LoginPage {
     if (this.login.valid) {
 
       const credentials = this.login.getRawValue() as AuthRequest;
-      console.log(credentials)
 
       this.authService.login(credentials).subscribe({
+
         next: () => {
           this.router.navigate(['/home']);
-        },
-
-        error: (err) => console.error(err)
+        }
       })
+    } else {
+
+      this.login.markAllAsTouched();
     }
   }
 }

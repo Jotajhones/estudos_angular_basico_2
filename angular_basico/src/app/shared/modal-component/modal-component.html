@@ -1,0 +1,14 @@
+@if(modalService.isOpen()) {
+<div class="modal-overlay">
+
+  <div class="glass-modal">
+
+    <h2 class="modal-title">{{modalService.dadosModal()?.titulo}}</h2>
+
+    <p class="modal-message">{{modalService.dadosModal()?.mensagem}}</p>
+
+    <button class="btn-fechar" (click)="modalService.fechar()">Entendi</button>
+  </div>
+
+</div>
+}
