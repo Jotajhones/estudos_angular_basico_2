@@ -1,11 +1,12 @@
 import { HttpClient } from "@angular/common/http";
-import { inject, Injectable } from "@angular/core";
+import { inject, Injectable, signal } from "@angular/core";
 import { CookieService } from 'ngx-cookie-service';
 import { environment } from "../../../environments/environment.development";
 import { Observable, tap } from "rxjs";
 import { AuthRequest } from "../models/auth-request";
 import { AuthResponse } from "../models/auth-response";
 import { jwtDecode } from "jwt-decode";
+import { Router } from "@angular/router";
 
 @Injectable({
     providedIn: 'root'
@@ -15,6 +16,10 @@ export class AuthService {
     private http = inject(HttpClient);
     private cookie = inject(CookieService);
     private url = `${environment.API_BASE_URL}/auth/login`;
+    
+    router = inject(Router);
+
+    currentUser = signal<string | null>(this.getUserEmail());
 
     login(credentials: AuthRequest): Observable<AuthResponse> {
 
@@ -30,6 +35,7 @@ export class AuthService {
                 if (credentials.email) {
 
                     localStorage.setItem('user_email', credentials.email);
+                    this.currentUser.set(credentials.email);
                 }
             })
         )
@@ -38,6 +44,8 @@ export class AuthService {
     logout(): void {
         this.cookie.delete('access_token');
         localStorage.removeItem('user_email');
+        this.router.navigate(['/login']);
+        this.currentUser.set(null);
     }
 
     getToken(): string {

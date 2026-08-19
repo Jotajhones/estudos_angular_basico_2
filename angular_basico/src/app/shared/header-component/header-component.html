@@ -5,7 +5,7 @@
   </div>
   
   <div class="user-actions">
-    <span class="user-greeting">Olá, Usuário</span>
-    <button class="btn-logout">Sair</button>
+    <span class="user-greeting">Olá, {{user()}}</span>
+    <button class="btn-logout" (click)="logout()">Sair</button>
   </div>
 </header>
